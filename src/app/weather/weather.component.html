@@ -1,0 +1,58 @@
+<div class="weather-container" [ngClass]="getWeatherClass()">
+  <div class="search-box">
+    <input 
+      type="text" 
+      [(ngModel)]="city" 
+      placeholder="Enter city name"
+      (keyup.enter)="getWeather()">
+    <button (click)="getWeather()">
+      <i class="fas fa-search"></i>
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <div class="loader"></div>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <i class="fas fa-exclamation-circle"></i>
+    {{ error }}
+  </div>
+
+  <div *ngIf="weatherData && !loading" class="weather-info">
+    <div class="weather-icon">
+      <i [class]="getWeatherIcon()"></i>
+    </div>
+    
+    <h2>{{ weatherData.name }}, {{ weatherData.sys.country }}</h2>
+    
+    <div class="temperature">
+      {{ weatherData.main.temp | number:'1.0-0' }}°C
+      <span class="min-max">
+        <small>↑{{ weatherData.main.temp_max | number:'1.0-0' }}° ↓{{ weatherData.main.temp_min | number:'1.0-0' }}°</small>
+      </span>
+    </div>
+    
+    <div class="weather-description">
+      {{ weatherData.weather[0].description }}
+    </div>
+    
+    <div class="weather-details">
+      <div class="detail-item">
+        <i class="fas fa-tint"></i>
+        <span>{{ weatherData.main.humidity }}%</span>
+        <small>Humidity</small>
+      </div>
+      <div class="detail-item">
+        <i class="fas fa-wind"></i>
+        <span>{{ weatherData.wind.speed }} m/s</span>
+        <small>Wind</small>
+      </div>
+      <div class="detail-item">
+        <i class="fas fa-compress-arrows-alt"></i>
+        <span>{{ weatherData.main.pressure }} hPa</span>
+        <small>Pressure</small>
+      </div>
+    </div>
+  </div>
+</div>
